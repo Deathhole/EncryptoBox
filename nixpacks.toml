@@ -1,11 +1,14 @@
 [build]
 providers = ["python"]
 
+[build.env]
+NIXPACKS_PATH = "backend"
+
 [phases.setup]
 nixPkgs = ["python311"]
 
 [phases.install]
-cmds = ["pip install -r backend/requirements.txt"]
+cmds = ["python3 -m pip install -r requirements.txt"]
 
 [phases.start]
-cmd = "python backend/main.py"
+cmd = "python3 main.py"
