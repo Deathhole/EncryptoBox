@@ -1,5 +1,5 @@
-// src/api/encrypt.ts
-const API_URL = "https://encryptobox-backend-production.up.railway.app/api/encrypt";
+// Accessing the API URL from environment variables
+const API_URL = import.meta.env.VITE_API_BASE + "/api/encrypt";
 
 export const encryptFile = async (
   file: File,
