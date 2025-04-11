@@ -1,0 +1,68 @@
+/* global.css */
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  background-color: #0b0b0b;
+  background-image: url('/images/image.jpg');
+  background-repeat: repeat;
+  background-size: auto;
+  background-attachment: fixed;
+  color: #fff;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+input,
+textarea {
+  font-family: inherit;
+  background-color: transparent;
+  color: inherit;
+  border: none;
+  outline: none;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1a1a1a;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #ff1744;
+  border-radius: 10px;
+  border: 2px solid #1a1a1a;
+}
+
+::selection {
+  background: #ff1744;
+  color: #fff;
+}
+
+/* Smooth transitions */
+* {
+  transition: all 0.25s ease-in-out;
+}

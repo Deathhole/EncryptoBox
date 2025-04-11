@@ -1,0 +1,13 @@
+/* src/styles/admin.css */
+.admin-container {
+    padding: 2rem;
+    text-align: center;
+  }
+  
+  .admin-section {
+    margin: 1.5rem 0;
+    padding: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+  }
+  

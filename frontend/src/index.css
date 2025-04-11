@@ -1,0 +1,74 @@
+/* Light Mode (Default) */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #fffdfd;
+  color: #333; /* Default text color */
+}
+
+/* Dark Mode */
+body.dark-mode {
+  background-color: #222; /* Dark background */
+  color: #fff; /* Light text color */
+}
+
+/* Input Fields */
+.input-field {
+  background-color: #fff; /* Light background for input fields */
+  color: #000; /* Dark text color */
+  border: 1px solid #ccc;
+}
+
+body.dark-mode .input-field {
+  background-color: #333; /* Dark background for input fields */
+  color: #fff; /* Light text color */
+  border: 1px solid #555;
+}
+
+/* Buttons */
+button {
+  background-color: #007bff; /* Default button background */
+  color: #fff; /* Default button text color */
+}
+
+body.dark-mode button {
+  background-color: #0056b3; /* Dark mode button background */
+  color: #fff; /* Light text color */
+}
+
+/* Links */
+a {
+  color: #007bff; /* Default link color */
+}
+
+body.dark-mode a {
+  color: #4da6ff; /* Light blue for links in dark mode */
+}
+
+/* Navbar */
+.navbar {
+  background-color: #007bff; /* Default navbar background */
+  color: #fff; /* Default navbar text color */
+}
+
+body.dark-mode .navbar {
+  background-color: #333; /* Dark mode navbar background */
+  color: #fff; /* Light text color */
+}
+
+/* File Upload Box */
+.file-upload-box {
+  background-color: #f8f9fa; /* Light background */
+  color: #555; /* Default text color */
+  border: 2px dashed #007bff;
+  padding: 20px;
+  text-align: center;
+  border-radius: 10px;
+}
+
+body.dark-mode .file-upload-box {
+  background-color: #333; /* Dark background */
+  color: #ddd; /* Light gray text color for better visibility */
+  border: 2px dashed #4da6ff;
+}

@@ -1,0 +1,50 @@
+/* Home Page Container */
+.home-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  text-align: center;
+  background-color: #f9f9f9; /* Light background */
+  color: #333; /* Dark text color */
+  padding: 20px;
+}
+
+
+/* Heading */
+.home-container h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #007bff; /* Blue color for the heading */
+}
+
+/* Paragraph */
+.home-container p {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+  color: #555; /* Slightly darker text for the paragraph */
+}
+
+/* Call-to-Action Buttons */
+.cta-buttons {
+  display: flex;
+  gap: 20px; /* Space between buttons */
+}
+
+.cta-buttons .btn {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  text-decoration: none;
+  color: #fff; /* White text */
+  background-color: #007bff; /* Blue background */
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.cta-buttons .btn:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+}

@@ -1,0 +1,24 @@
+// src/app/pages/Encrypt.tsx
+import React, { useContext } from "react";
+import { Box, CssBaseline } from "@mui/material";
+import EncryptComponent from "../../components/EncryptComponent";
+import { ColorModeContext } from "../theme/theme";
+import { useTheme, ThemeProvider } from "@mui/material/styles";
+
+const Encrypt: React.FC = () => {
+  const theme = useTheme();
+  const colorMode = useContext(ColorModeContext);
+
+  return (
+    <ThemeProvider theme={theme}>
+      <ColorModeContext.Provider value={colorMode}>
+        <CssBaseline />
+        <Box p={3}>
+          <EncryptComponent />
+        </Box>
+      </ColorModeContext.Provider>
+    </ThemeProvider>
+  );
+};
+
+export default Encrypt;
