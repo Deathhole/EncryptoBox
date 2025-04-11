@@ -1,0 +1,13 @@
+{
+    "rewrites": [
+      { "source": "/admin", "destination": "/" },
+      { "source": "/admin/**", "destination": "/" },
+      { "source": "/encrypt", "destination": "/" },
+      { "source": "/decrypt", "destination": "/" },
+      { "source": "/home", "destination": "/" },
+      { "source": "/verify-email", "destination": "/" },
+      { "source": "/login", "destination": "/" },
+      { "source": "/signup", "destination": "/" }
+    ]
+  }
+  
