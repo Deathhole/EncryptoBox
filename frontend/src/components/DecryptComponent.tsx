@@ -20,20 +20,23 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000
 
 const DecryptComponent = () => {
   const [files, setFiles] = useState<File[]>([]);
-  const [password, setPassword] = useState("");
+  const [password, setPassword] = useState<string>("");
   const theme = useTheme();
 
+  // Callback function for handling file drops
   const onDrop = useCallback((acceptedFiles: File[]) => {
     setFiles((prev) => [...prev, ...acceptedFiles]);
     toast.success(`${acceptedFiles.length} file(s) added successfully! 🎉`);
   }, []);
 
+  // Dropzone hook for accepting encrypted files
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     accept: { "application/octet-stream": [".enc"] },
     multiple: true,
   });
 
+  // Handle decryption process
   const handleDecrypt = async () => {
     if (files.length === 0 || password === "") {
       toast.error("Please select files and enter a password.");
@@ -61,6 +64,7 @@ const DecryptComponent = () => {
           continue;
         }
 
+        // Create a download link for the decrypted file
         const downloadUrl = window.URL.createObjectURL(blob);
         const link = document.createElement("a");
         link.href = downloadUrl;
@@ -68,7 +72,7 @@ const DecryptComponent = () => {
         link.click();
 
         toast.success(`File ${file.name} decrypted successfully! ✅`);
-      } catch {
+      } catch (error) {
         toast.error(`Decryption failed for ${file.name}. ❌`);
       }
     }

@@ -26,12 +26,14 @@ const EncryptComponent = () => {
   const [uploadProgress, setUploadProgress] = useState(0);
   const theme = useTheme();
 
+  // Allowed file types for encryption
   const allowedFileTypes = [
     "image/png", "image/jpeg", "text/plain", "application/pdf",
     "application/zip", "application/json", "audio/mpeg", "audio/wav",
     "audio/ogg", "video/mp4", "video/quicktime", "video/x-matroska",
   ];
 
+  // Handle file drops and validation
   const onDrop = useCallback((acceptedFiles: File[]) => {
     const validFiles = acceptedFiles.filter(file =>
       allowedFileTypes.includes(file.type)
@@ -48,6 +50,7 @@ const EncryptComponent = () => {
       setFiles(prev => [...prev, ...validFiles]);
       toast.success(`${validFiles.length} valid file(s) added!`);
 
+      // Auto delete files after 1 minute
       validFiles.forEach(file => {
         setTimeout(() => {
           setFiles(prev => prev.filter(f => f !== file));
@@ -57,12 +60,14 @@ const EncryptComponent = () => {
     }
   }, []);
 
+  // Dropzone configuration
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     accept: allowedFileTypes.reduce((acc, type) => ({ ...acc, [type]: [] }), {}),
     multiple: true,
   });
 
+  // Handle encryption process
   const handleEncrypt = async () => {
     if (files.length === 0 || password === "") {
       toast.error("Please select files and enter a password.");
@@ -102,6 +107,7 @@ const EncryptComponent = () => {
     }
   };
 
+  // Password strength calculation
   const passwordStrength = zxcvbn(password).score;
   const strengthLabels = ["Weak", "Weak", "Okay", "Good", "Strong"];
   const strengthColors = ["#d32f2f", "#f57c00", "#fbc02d", "#388e3c", "#2e7d32"];
@@ -117,6 +123,7 @@ const EncryptComponent = () => {
         Encrypt Your Files
       </Typography>
 
+      {/* File Dropzone */}
       <Paper
         {...getRootProps()}
         elevation={3}
@@ -145,6 +152,7 @@ const EncryptComponent = () => {
         </Typography>
       </Paper>
 
+      {/* File List */}
       {files.length > 0 && (
         <List dense>
           {files.map((file, idx) => (
@@ -155,6 +163,7 @@ const EncryptComponent = () => {
         </List>
       )}
 
+      {/* Password Input */}
       <TextField
         fullWidth
         type="password"
@@ -165,6 +174,7 @@ const EncryptComponent = () => {
         sx={{ my: 2 }}
       />
 
+      {/* Password Strength Indicator */}
       {password && (
         <Box sx={{ mb: 2 }}>
           <LinearProgress
@@ -188,6 +198,7 @@ const EncryptComponent = () => {
         </Box>
       )}
 
+      {/* Encrypt Button */}
       <Button
         fullWidth
         variant="contained"
