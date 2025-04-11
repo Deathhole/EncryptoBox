@@ -6,4 +6,4 @@ def convert_private_key_for_env(private_key_path):
     print(f'FIREBASE_PRIVATE_KEY="{escaped_key}"')
 
 # 🔧 Replace with your real key path if different
-convert_private_key_for_env("serviceAccountKey.json")
+convert_private_key_for_env("firebase-admin/serviceAccountKey.json")
