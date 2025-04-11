@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     port: 5173, // Change this if necessary
     proxy: {  // Proxy for the backend
-      "/api": "http://localhost:8000",    // Change this if necessary
+      "/api": "https://encryptobox-backend-production.up.railway.app/",    // Change this if necessary
     },
   },
 });
