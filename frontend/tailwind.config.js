@@ -8,9 +8,12 @@ export default {
   theme: {
     extend: {
       colors: {
-        brand: "#ff1744", // Custom color example
+        brand: "#ff1744", // Custom brand color
       },
     },
   },
-  plugins: [require("@tailwindcss/forms"), require("@tailwindcss/typography")],
+  plugins: [
+    require("@tailwindcss/forms"),
+    require("@tailwindcss/typography"),
+  ],
 };
