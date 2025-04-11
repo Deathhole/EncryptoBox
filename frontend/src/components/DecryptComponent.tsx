@@ -1,4 +1,3 @@
-// src/app/pages/Decrypt.tsx
 import React, { useState, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import { toast } from "react-toastify";
@@ -16,7 +15,10 @@ import {
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 
-const Decrypt = () => {
+// Use environment variable for backend URL
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
+
+const DecryptComponent = () => {
   const [files, setFiles] = useState<File[]>([]);
   const [password, setPassword] = useState("");
   const theme = useTheme();
@@ -32,10 +34,6 @@ const Decrypt = () => {
     multiple: true,
   });
 
-  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(e.target.value);
-  };
-
   const handleDecrypt = async () => {
     if (files.length === 0 || password === "") {
       toast.error("Please select files and enter a password.");
@@ -50,7 +48,7 @@ const Decrypt = () => {
       formData.append("password", password);
 
       try {
-        const response = await fetch("https://encryptobox-backend-production.up.railway.app/api/decrypt", { // Updated the endpoint 
+        const response = await fetch(`${API_BASE_URL}/api/decrypt`, {
           method: "POST",
           body: formData,
         });
@@ -70,7 +68,7 @@ const Decrypt = () => {
         link.click();
 
         toast.success(`File ${file.name} decrypted successfully! ✅`);
-      } catch (error) {
+      } catch {
         toast.error(`Decryption failed for ${file.name}. ❌`);
       }
     }
@@ -134,7 +132,7 @@ const Decrypt = () => {
         label="Decryption Password"
         variant="outlined"
         value={password}
-        onChange={handlePasswordChange}
+        onChange={(e) => setPassword(e.target.value)}
         sx={{ my: 2 }}
       />
 
@@ -160,4 +158,4 @@ const Decrypt = () => {
   );
 };
 
-export default Decrypt;
+export default DecryptComponent;

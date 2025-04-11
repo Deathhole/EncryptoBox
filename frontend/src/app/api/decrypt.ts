@@ -1,3 +1,4 @@
+// src/api/decrypt.ts
 import { toast } from "react-toastify";
 
 export const decryptFile = async (file: File, password: string) => {
@@ -8,27 +9,40 @@ export const decryptFile = async (file: File, password: string) => {
   try {
     toast.info("Decrypting file... 🔓");
 
-    const response = await fetch("https://encryptobox-backend-production.up.railway.app/api/decrypt", { // Updated the endpoint 
-      method: "POST",
-      body: formData, // No need to set headers, FormData handles it
-    });
+    const response = await fetch(
+      "https://encryptobox-backend-production.up.railway.app/api/decrypt",
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
 
     if (!response.ok) {
-      throw new Error("Decryption failed! ❌");
+      const errorText = await response.text();
+      throw new Error(
+        `Decryption failed! ❌ ${response.status} - ${errorText}`
+      );
     }
 
-    // Create a downloadable file link
     const blob = await response.blob();
+
+    if (blob.size === 0) {
+      toast.error("Incorrect password or empty file. ❌");
+      return;
+    }
+
     const downloadUrl = window.URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = downloadUrl;
-    a.download = file.name.replace(".enc", ""); // Remove .enc extension
+    a.download = file.name.endsWith(".enc")
+      ? file.name.replace(/\.enc$/i, "")
+      : `decrypted_${file.name}`;
     document.body.appendChild(a);
     a.click();
     a.remove();
 
     toast.success("File decrypted successfully! ✅");
-  } catch (error) {
+  } catch (error: any) {
     toast.error("Error: " + error.message);
   }
 };

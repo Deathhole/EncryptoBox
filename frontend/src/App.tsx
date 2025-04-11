@@ -1,4 +1,5 @@
 import React from "react";
+import { toast } from "react-toastify";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./app/theme/theme";

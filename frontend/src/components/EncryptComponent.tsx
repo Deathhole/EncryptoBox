@@ -1,4 +1,3 @@
-// src/app/pages/Encrypt.tsx
 import React, { useState, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import { toast } from "react-toastify";
@@ -18,48 +17,40 @@ import LockIcon from "@mui/icons-material/Lock";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import zxcvbn from "zxcvbn";
 
-const Encrypt = () => {
+// Use your environment variable for the API base URL
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
+
+const EncryptComponent = () => {
   const [files, setFiles] = useState<File[]>([]);
   const [password, setPassword] = useState("");
   const [uploadProgress, setUploadProgress] = useState(0);
   const theme = useTheme();
 
   const allowedFileTypes = [
-    "image/png",
-    "image/jpeg",
-    "text/plain",
-    "application/pdf",
-    "application/zip",
-    "application/json",
-    "audio/mpeg",      // .mp3
-    "audio/wav",       // .wav
-    "audio/ogg",       // .ogg
-    "video/mp4",       // .mp4
-    "video/quicktime", // .mov
-    "video/x-matroska" // .mkv
+    "image/png", "image/jpeg", "text/plain", "application/pdf",
+    "application/zip", "application/json", "audio/mpeg", "audio/wav",
+    "audio/ogg", "video/mp4", "video/quicktime", "video/x-matroska",
   ];
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
-    const validFiles = acceptedFiles.filter((file) =>
+    const validFiles = acceptedFiles.filter(file =>
       allowedFileTypes.includes(file.type)
     );
     const invalidFiles = acceptedFiles.filter(
-      (file) => !allowedFileTypes.includes(file.type)
+      file => !allowedFileTypes.includes(file.type)
     );
 
     if (invalidFiles.length > 0) {
-      toast.error(
-        `Unsupported file types: ${invalidFiles.map((f) => f.name).join(", ")}`
-      );
+      toast.error(`Unsupported file types: ${invalidFiles.map(f => f.name).join(", ")}`);
     }
 
     if (validFiles.length > 0) {
-      setFiles((prev) => [...prev, ...validFiles]);
+      setFiles(prev => [...prev, ...validFiles]);
       toast.success(`${validFiles.length} valid file(s) added!`);
 
-      validFiles.forEach((file) => {
+      validFiles.forEach(file => {
         setTimeout(() => {
-          setFiles((prev) => prev.filter((f) => f !== file));
+          setFiles(prev => prev.filter(f => f !== file));
           toast.info(`File ${file.name} auto-deleted after 1 minute.`);
         }, 60000);
       });
@@ -87,7 +78,7 @@ const Encrypt = () => {
       formData.append("password", password);
 
       try {
-        const response = await fetch("https://encryptobox-backend-production.up.railway.app/api/encrypt", { // Added the endpoint 
+        const response = await fetch(`${API_BASE_URL}/api/encrypt`, {
           method: "POST",
           body: formData,
         });
@@ -107,7 +98,7 @@ const Encrypt = () => {
         toast.error(`Encryption failed for ${file.name}. ❌`);
       }
 
-      setUploadProgress((prev) => prev + (100 / files.length));
+      setUploadProgress(prev => prev + 100 / files.length);
     }
   };
 
@@ -126,7 +117,6 @@ const Encrypt = () => {
         Encrypt Your Files
       </Typography>
 
-      {/* Dropzone */}
       <Paper
         {...getRootProps()}
         elevation={3}
@@ -155,7 +145,6 @@ const Encrypt = () => {
         </Typography>
       </Paper>
 
-      {/* File List */}
       {files.length > 0 && (
         <List dense>
           {files.map((file, idx) => (
@@ -166,7 +155,6 @@ const Encrypt = () => {
         </List>
       )}
 
-      {/* Password Field */}
       <TextField
         fullWidth
         type="password"
@@ -177,7 +165,6 @@ const Encrypt = () => {
         sx={{ my: 2 }}
       />
 
-      {/* Password Strength Meter */}
       {password && (
         <Box sx={{ mb: 2 }}>
           <LinearProgress
@@ -201,7 +188,6 @@ const Encrypt = () => {
         </Box>
       )}
 
-      {/* Encrypt Button */}
       <Button
         fullWidth
         variant="contained"
@@ -223,4 +209,4 @@ const Encrypt = () => {
   );
 };
 
-export default Encrypt;
+export default EncryptComponent;
