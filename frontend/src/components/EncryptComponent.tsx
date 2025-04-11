@@ -87,7 +87,7 @@ const Encrypt = () => {
       formData.append("password", password);
 
       try {
-        const response = await fetch("http://127.0.0.1:8000/api/encrypt", {
+        const response = await fetch("https://encryptobox-backend-production.up.railway.app/api/encrypt", { // Added the endpoint 
           method: "POST",
           body: formData,
         });

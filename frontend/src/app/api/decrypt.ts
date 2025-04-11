@@ -8,7 +8,7 @@ export const decryptFile = async (file: File, password: string) => {
   try {
     toast.info("Decrypting file... 🔓");
 
-    const response = await fetch("http://127.0.0.1:8000/api/decrypt", {
+    const response = await fetch("https://encryptobox-backend-production.up.railway.app/api/decrypt", { // Updated the endpoint 
       method: "POST",
       body: formData, // No need to set headers, FormData handles it
     });
