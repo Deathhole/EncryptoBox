@@ -83,7 +83,7 @@ const EncryptComponent = () => {
       formData.append("password", password);
 
       try {
-        const response = await fetch("https://your-railway-app.up.railway.app/api/encrypt", {  // Fixed URL
+        const response = await fetch("https://encryptobox-backend-production.up.railway.app/api/encrypt", {  // Fixed URL
           method: "POST",
           body: formData,
         });
