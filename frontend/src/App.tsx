@@ -1,7 +1,9 @@
 import React from "react";
-import { toast } from "react-toastify";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { CssBaseline, ThemeProvider } from "@mui/material";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import { ColorModeContext, useMode } from "./app/theme/theme";
 
 // Pages
@@ -24,6 +26,7 @@ const App = () => {
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
+        <ToastContainer position="top-right" autoClose={3000} />
         <BrowserRouter>
           <Routes>
             {/* 🔓 Public Routes */}

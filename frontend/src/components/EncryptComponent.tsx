@@ -99,7 +99,7 @@ const EncryptComponent = () => {
         link.click();
 
         toast.success(`File ${file.name} encrypted successfully! ✅`);
-      } catch {
+      } catch (error) {
         toast.error(`Encryption failed for ${file.name}. ❌`);
       }
 
