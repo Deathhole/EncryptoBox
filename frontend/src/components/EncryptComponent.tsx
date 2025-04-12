@@ -83,7 +83,7 @@ const EncryptComponent = () => {
       formData.append("password", password);
 
       try {
-        const response = await fetch(`${API_BASE_URL}/api/encrypt`, {
+        const response = await fetch("https://your-railway-app.up.railway.app/api/encrypt", {
           method: "POST",
           body: formData,
         });

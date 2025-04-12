@@ -51,7 +51,7 @@ const DecryptComponent = () => {
       formData.append("password", password);
 
       try {
-        const response = await fetch(`${API_BASE_URL}/api/decrypt`, {
+        const response = await fetch("https://your-railway-app.up.railway.app/api/decrypt", {  // Fixed missing comma
           method: "POST",
           body: formData,
         });
