@@ -6,7 +6,6 @@ import {
   Typography,
   Paper,
   useTheme,
-  CircularProgress,
 } from "@mui/material";
 import LockIcon from "@mui/icons-material/Lock";
 import { toast } from "react-toastify";
@@ -19,35 +18,12 @@ const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-
-  const isValidEmail = (email: string) => {
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return regex.test(email);
-  };
-
-  const isValidPassword = (password: string) => {
-    // Password should be at least 6 characters long
-    return password.length >= 6;
-  };
 
   const handleLogin = async () => {
     if (!email || !password) {
       toast.error("Please fill in all fields.");
       return;
     }
-
-    if (!isValidEmail(email)) {
-      toast.error("Please enter a valid email address.");
-      return;
-    }
-
-    if (!isValidPassword(password)) {
-      toast.error("Password should be at least 6 characters.");
-      return;
-    }
-
-    setLoading(true);
 
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
@@ -56,8 +32,6 @@ const Login = () => {
     } catch (err: any) {
       console.error(err);
       toast.error("Login failed. ❌");
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -151,13 +125,8 @@ const Login = () => {
               backgroundColor: "#d50000",
             },
           }}
-          disabled={loading}
         >
-          {loading ? (
-            <CircularProgress size={24} sx={{ color: "#fff" }} />
-          ) : (
-            "🔐 LOGIN"
-          )}
+          🔐 LOGIN
         </Button>
 
         <Typography
