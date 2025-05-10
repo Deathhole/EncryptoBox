@@ -12,6 +12,8 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../app/api/firebaseConfig";
+import { db } from "../../app/api/firebaseConfig"; // Assuming you have db initialized
+import { doc, getDoc, setDoc } from "firebase/firestore"; // Import Firestore functions
 
 const Login = () => {
   const theme = useTheme();
@@ -19,6 +21,30 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  // Function to check or create the user document in Firestore
+  const checkOrCreateUserDoc = async (userId: string) => {
+    const userDocRef = doc(db, "users", userId);
+    const docSnap = await getDoc(userDocRef);
+
+    if (!docSnap.exists()) {
+      console.log("User document does not exist, creating one...");
+      // Create user document if it doesn't exist
+      try {
+        await setDoc(userDocRef, {
+          userId: userId,
+          createdAt: new Date(),
+          // Add any other necessary fields
+        });
+        console.log("User document created successfully!");
+      } catch (error) {
+        console.error("Error creating user document: ", error);
+      }
+    } else {
+      console.log("User document already exists");
+    }
+  };
+
+  // Handle the login logic
   const handleLogin = async () => {
     if (!email || !password) {
       toast.error("Please fill in all fields.");
@@ -27,8 +53,14 @@ const Login = () => {
 
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const userId = userCredential.user.uid;
+
+      // Check or create the user document in Firestore
+      await checkOrCreateUserDoc(userId);
+
       toast.success("Logged in successfully! 🚀");
-      navigate("/home");
+      navigate("/home"); // Redirect to home after login
+
     } catch (err: any) {
       console.error(err);
       toast.error("Login failed. ❌");
