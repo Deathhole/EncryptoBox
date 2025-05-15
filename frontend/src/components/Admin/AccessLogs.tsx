@@ -9,26 +9,39 @@ interface LogEntry {
   email: string;
   action: string;
   filename: string;
-  timestamp: any;
+  timestamp: string; // Changed to string to handle the formatted date string
 }
 
 const AccessLogs: React.FC = () => {
   const [logs, setLogs] = useState<LogEntry[]>([]);
+  const [error, setError] = useState<string | null>(null); // Error state
 
   useEffect(() => {
     const logsRef = collection(db, "access_logs");
     const logsQuery = query(logsRef, orderBy("timestamp", "desc"));
 
-    const unsubscribe = onSnapshot(logsQuery, (snapshot) => {
-      const updatedLogs: LogEntry[] = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        email: doc.data().email,
-        action: doc.data().action,
-        filename: doc.data().filename,
-        timestamp: doc.data().timestamp?.toDate().toLocaleString(),
-      }));
-      setLogs(updatedLogs);
-    });
+    const unsubscribe = onSnapshot(
+      logsQuery,
+      (snapshot) => {
+        const updatedLogs: LogEntry[] = snapshot.docs.map((doc) => {
+          const data = doc.data();
+          const timestamp = data.timestamp?.toDate().toLocaleString(); // Make sure it's a valid timestamp
+          return {
+            id: doc.id,
+            email: data.email || "Unknown", // Handle undefined email
+            action: data.action || "No Action", // Handle undefined action
+            filename: data.filename || "No Filename", // Handle undefined filename
+            timestamp: timestamp || "Unknown Time", // Handle undefined timestamp
+          };
+        });
+        setLogs(updatedLogs);
+        setError(null); // Reset error on successful fetch
+      },
+      (err) => {
+        console.error("Error fetching logs:", err);
+        setError("Failed to load logs. Please try again later.");
+      }
+    );
 
     return () => unsubscribe(); // 🔁 Cleanup listener on unmount
   }, []);
@@ -39,6 +52,11 @@ const AccessLogs: React.FC = () => {
         <FolderIcon sx={{ mr: 1 }} />
         Access Logs
       </Typography>
+      {error && (
+        <Typography variant="body2" sx={{ color: "#ff5252", mt: 2 }}>
+          {error}
+        </Typography>
+      )}
       <TableContainer sx={{ mt: 2 }}>
         <Table>
           <TableHead>

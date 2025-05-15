@@ -1,7 +1,7 @@
 /// <reference types="vite/client" />
 
 interface ImportMetaEnv {
-  readonly VITE_API_BASE: "http://localhost:8000";
+  readonly VITE_API_BASE: "http://localhost:8000/api";
   readonly VITE_FIREBASE_API_KEY: "AIzaSyBd7GNaFzfpX3euKSa3ahLJnI-dOxV0oHA";
   readonly VITE_FIREBASE_AUTH_DOMAIN: "enceyptobox.firebaseapp.com";
   readonly VITE_FIREBASE_PROJECT_ID: "enceyptobox";

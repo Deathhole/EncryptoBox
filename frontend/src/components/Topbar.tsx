@@ -1,80 +1,166 @@
 // src/components/Topbar.tsx
-import React from "react";
+import React, { useState } from "react";
 import {
   AppBar,
   Toolbar,
   Typography,
   Box,
+  Button,
+  Stack,
+  IconButton,
+  Drawer,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
 } from "@mui/material";
-import { Link } from "react-router-dom";
-import ProfileMenu from "./ProfileMenu"; // ✅ Import your enhanced profile menu
+import MenuIcon from "@mui/icons-material/Menu";
+import { Link, useLocation } from "react-router-dom";
+import ProfileMenu from "./ProfileMenu";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../app/api/firebaseConfig";
+import EncryptoBoxLogo from "./EncryptoBoxLogo"; // <-- Added import
+
+const navLinks = [
+  { label: "Home", path: "/home" },
+  { label: "Encrypt", path: "/encrypt" },
+  { label: "Decrypt", path: "/decrypt" },
+];
 
 const Topbar: React.FC = () => {
   const [user] = useAuthState(auth);
+  const location = useLocation();
+  const isAdmin = user?.email === "admin@example.com";
 
-  // TODO: Replace this logic with your actual admin-check logic
-  const isAdmin = user?.email === "admin@example.com"; // 🔒 Replace with dynamic check
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const toggleDrawer = (open: boolean) => () => setDrawerOpen(open);
 
   return (
-    <AppBar
-      position="static"
-      sx={{
-        backgroundColor: "#000",
-        paddingY: "4px",
-        borderBottom: "2px solid #ff1744",
-      }}
-      elevation={0}
-    >
-      <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
-        {/* Logo and Title */}
-        <Box
-          display="flex"
-          alignItems="center"
-          gap={1}
-          component={Link}
-          to="/home"
-          sx={{ textDecoration: "none" }}
-        >
+    <>
+      <AppBar
+        position="sticky"
+        sx={{
+          backgroundColor: "#000",
+          borderBottom: "2px solid #ff1744",
+          paddingY: "4px",
+          zIndex: 1201,
+        }}
+        elevation={0}
+      >
+        <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
+          {/* Logo */}
+          <Box
+            display="flex"
+            alignItems="center"
+            gap={1}
+            component={Link}
+            to="/home"
+            sx={{ textDecoration: "none" }}
+          >
+            <EncryptoBoxLogo size={36} /> {/* Replaced red box with SVG logo */}
+            <Typography
+              variant="h6"
+              fontWeight="bold"
+              sx={{
+                color: "#fff",
+                fontFamily: "'Poppins', sans-serif",
+                fontSize: "1.25rem",
+                "&:hover": { color: "#ff1744" },
+              }}
+            >
+              EncryptoBox
+            </Typography>
+          </Box>
+
+          {/* Centered Navigation (Desktop) */}
           <Box
             sx={{
-              width: 36,
-              height: 36,
-              backgroundColor: "#ff1744",
-              borderRadius: "6px",
-              fontWeight: "bold",
-              fontSize: "1.5rem",
-              color: "#fff",
-              display: "flex",
-              alignItems: "center",
+              flexGrow: 1,
+              display: { xs: "none", md: "flex" },
               justifyContent: "center",
-              fontFamily: "'Poppins', sans-serif",
             }}
           >
-            E
+            <Stack direction="row" spacing={4}>
+              {navLinks.map((link) => {
+                const isActive = location.pathname === link.path;
+                return (
+                  <Button
+                    key={link.label}
+                    component={Link}
+                    to={link.path}
+                    sx={{
+                      color: isActive ? "#ff1744" : "#ccc",
+                      borderBottom: isActive
+                        ? "2px solid #ff1744"
+                        : "2px solid transparent",
+                      borderRadius: 0,
+                      fontWeight: "medium",
+                      fontFamily: "'Poppins', sans-serif",
+                      textTransform: "none",
+                      transition: "color 0.3s, border-bottom 0.3s",
+                      "&:hover": {
+                        color: "#ff1744",
+                        borderBottom: "2px solid #ff1744",
+                      },
+                    }}
+                  >
+                    {link.label}
+                  </Button>
+                );
+              })}
+            </Stack>
           </Box>
-          <Typography
-            variant="h6"
-            fontWeight="bold"
-            sx={{
-              color: "#fff",
-              fontFamily: "'Poppins', sans-serif",
-              fontSize: "1.25rem",
-            }}
-          >
-            EncryptoBox
-          </Typography>
-        </Box>
 
-        {/* ProfileMenu */}
-        {user && (
-          <Box>
-            <ProfileMenu isAdmin={isAdmin} />
+          {/* Hamburger (Mobile) */}
+          <Box sx={{ display: { xs: "block", md: "none" } }}>
+            <IconButton edge="end" color="inherit" onClick={toggleDrawer(true)}>
+              <MenuIcon />
+            </IconButton>
           </Box>
-        )}
-      </Toolbar>
-    </AppBar>
+
+          {/* Profile Menu (Desktop only) */}
+          {user && (
+            <Box sx={{ display: { xs: "none", md: "block" } }}>
+              <ProfileMenu isAdmin={isAdmin} />
+            </Box>
+          )}
+        </Toolbar>
+      </AppBar>
+
+      {/* Mobile Drawer */}
+      <Drawer anchor="right" open={drawerOpen} onClose={toggleDrawer(false)}>
+        <Box
+          sx={{ width: 250, backgroundColor: "#000", height: "100%", color: "#fff" }}
+          role="presentation"
+          onClick={toggleDrawer(false)}
+          onKeyDown={toggleDrawer(false)}
+        >
+          <List>
+            {navLinks.map((link) => (
+              <ListItem key={link.label} disablePadding>
+                <ListItemButton
+                  component={Link}
+                  to={link.path}
+                  sx={{
+                    color: location.pathname === link.path ? "#ff1744" : "#fff",
+                    "&:hover": { backgroundColor: "#1a1a1a" },
+                  }}
+                >
+                  <ListItemText primary={link.label} />
+                </ListItemButton>
+              </ListItem>
+            ))}
+            {user && (
+              <ListItem disablePadding>
+                <Box px={2} pt={2}>
+                  <ProfileMenu isAdmin={isAdmin} />
+                </Box>
+              </ListItem>
+            )}
+          </List>
+        </Box>
+      </Drawer>
+    </>
   );
 };
 

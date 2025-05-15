@@ -5,35 +5,38 @@ import {
   TextField,
   Typography,
   Paper,
+  IconButton,
+  InputAdornment,
   useTheme,
 } from "@mui/material";
 import LockIcon from "@mui/icons-material/Lock";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../app/api/firebaseConfig";
-import { db } from "../../app/api/firebaseConfig"; // Assuming you have db initialized
-import { doc, getDoc, setDoc } from "firebase/firestore"; // Import Firestore functions
+import { db } from "../../app/api/firebaseConfig"; 
+import { doc, getDoc, setDoc } from "firebase/firestore";
 
 const Login = () => {
   const theme = useTheme();
   const navigate = useNavigate();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
-  // Function to check or create the user document in Firestore
+  // Check or create Firestore user doc
   const checkOrCreateUserDoc = async (userId: string) => {
     const userDocRef = doc(db, "users", userId);
     const docSnap = await getDoc(userDocRef);
 
     if (!docSnap.exists()) {
-      console.log("User document does not exist, creating one...");
-      // Create user document if it doesn't exist
       try {
         await setDoc(userDocRef, {
           userId: userId,
           createdAt: new Date(),
-          // Add any other necessary fields
         });
         console.log("User document created successfully!");
       } catch (error) {
@@ -44,26 +47,26 @@ const Login = () => {
     }
   };
 
-  // Handle the login logic
   const handleLogin = async () => {
-    if (!email || !password) {
+    const emailTrimmed = email.trim();
+    const passwordTrimmed = password.trim();
+
+    if (!emailTrimmed || !passwordTrimmed) {
       toast.error("Please fill in all fields.");
       return;
     }
 
     try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const userCredential = await signInWithEmailAndPassword(auth, emailTrimmed, passwordTrimmed);
       const userId = userCredential.user.uid;
 
-      // Check or create the user document in Firestore
       await checkOrCreateUserDoc(userId);
 
       toast.success("Logged in successfully! 🚀");
-      navigate("/home"); // Redirect to home after login
-
-    } catch (err: any) {
-      console.error(err);
-      toast.error("Login failed. ❌");
+      navigate("/home");
+    } catch (err) {
+      console.error("Login failed:", err);
+      toast.error("Login failed. Please sign up first.");
     }
   };
 
@@ -128,7 +131,7 @@ const Login = () => {
         <TextField
           fullWidth
           label="Password"
-          type="password"
+          type={showPassword ? "text" : "password"}
           variant="outlined"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
@@ -142,6 +145,19 @@ const Login = () => {
               WebkitTextFillColor: theme.palette.mode === "dark" ? "#fff" : "#000",
               transition: "background-color 5000s ease-in-out 0s",
             },
+          }}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                  onClick={() => setShowPassword((show) => !show)}
+                  edge="end"
+                >
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            ),
           }}
         />
 

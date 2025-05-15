@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation, Navigate } from "react-router-dom";
 import { onAuthStateChanged, User } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
+import { toast } from "react-toastify";
 import { auth, db } from "../app/api/firebaseConfig";
 
 interface ProtectedRouteProps {
@@ -20,7 +21,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, adminOnly = f
       console.log("🔍 Checking user...");
 
       if (!user) {
-        console.log("❌ Not logged in");
+        toast.warning("Please log in to access this feature.", { toastId: "auth-required" });
         setRedirectTo("/login");
         setLoading(false);
         return;
@@ -29,7 +30,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, adminOnly = f
       console.log("✅ Logged in user:", user.uid);
 
       if (!user.emailVerified) {
-        console.log("📧 Email not verified, redirecting to verify page");
+        toast.info("Please verify your email to continue.", { toastId: "email-verification" });
         setRedirectTo("/verify-email");
         setLoading(false);
         return;
@@ -44,18 +45,20 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, adminOnly = f
           console.log("📄 Firestore user data:", userData);
 
           if (adminOnly && userData.role !== "admin") {
-            console.log("⛔ Not an admin");
-            setRedirectTo("/login");
+            toast.error("You are not authorized to access this page.", { toastId: "not-authorized" });
+            setRedirectTo("/home");
           } else {
             console.log("✅ Authorized");
             setIsAuthorized(true);
           }
         } else {
           console.log("❌ User doc does not exist");
+          toast.error("User record not found. Please contact support.", { toastId: "user-not-found" });
           setRedirectTo("/login");
         }
       } catch (error) {
         console.error("🔥 Error fetching user document:", error);
+        toast.error("Something went wrong. Please try again.", { toastId: "fetch-error" });
         setRedirectTo("/login");
       } finally {
         setLoading(false);

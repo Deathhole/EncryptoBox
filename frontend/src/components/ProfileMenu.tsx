@@ -82,7 +82,7 @@ const ProfileMenu: React.FC<Props> = ({ isAdmin }) => {
           <>
             <Box px={2} py={1}>
               <Typography variant="subtitle1">
-                {currentUser.displayName || "Anonymous User"}
+                {currentUser.displayName || "User"}
               </Typography>
               <Typography variant="body2" color="text.secondary">
                 {currentUser.email}

@@ -4,7 +4,6 @@ import UserTable from "../../components/Admin/UserTable";
 import FileStats from "../../components/Admin/FileStats";
 import AccessLogs from "../../components/Admin/AccessLogs";
 import AnalyticsCharts from "../../components/Admin/AnalyticsCharts";
-import SettingsPanel from "../../components/Admin/SettingsPanel";
 
 const AdminDashboard = () => {
   return (
@@ -38,11 +37,7 @@ const AdminDashboard = () => {
           </Paper>
         </Grid>
 
-        <Grid item xs={12}>
-          <Paper sx={{ p: 2 }}>
-            <SettingsPanel />
-          </Paper>
-        </Grid>
+        
       </Grid>
     </Box>
   );
