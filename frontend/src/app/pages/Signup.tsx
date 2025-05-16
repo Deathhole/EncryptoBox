@@ -20,6 +20,7 @@ import { doc, setDoc } from "firebase/firestore";
 import { auth, db } from "../../app/api/firebaseConfig";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import Topbar from "../../components/Topbar";
 
 const Signup: React.FC = () => {
   const theme = useTheme();
@@ -47,21 +48,18 @@ const Signup: React.FC = () => {
       const user = userCredential.user;
 
       if (user) {
-        // Create Firestore user document with fullName
         await setDoc(doc(db, "users", user.uid), {
           fullName: fullName.trim(),
           email: user.email,
-          role: "user", // default role
+          role: "user",
           createdAt: new Date(),
         });
 
         console.log("✅ Firestore user document created");
 
-        // Send verification email
         await sendEmailVerification(user);
         toast.success("Verification email sent. Please check your inbox!");
 
-        // Redirect to login
         navigate("/login");
       }
     } catch (error: any) {
@@ -71,149 +69,152 @@ const Signup: React.FC = () => {
   };
 
   return (
-    <Box
-      sx={{
-        mt: 12,
-        mx: "auto",
-        maxWidth: 400,
-        px: 3,
-        textAlign: "center",
-      }}
-    >
-      <Paper
-        elevation={4}
+    <>
+      <Topbar />
+      <Box
         sx={{
-          p: 4,
-          borderRadius: 3,
-          backgroundColor:
-            theme.palette.mode === "dark"
-              ? theme.palette.background.default
-              : "#fff",
+          mt: 12,
+          mx: "auto",
+          maxWidth: 400,
+          px: 3,
+          textAlign: "center",
         }}
       >
-        <Typography
-          variant="h4"
-          gutterBottom
+        <Paper
+          elevation={4}
           sx={{
-            color: "#ff1744",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: 1,
-            fontWeight: 600,
-            mb: 3,
-            userSelect: "none",
+            p: 4,
+            borderRadius: 3,
+            backgroundColor:
+              theme.palette.mode === "dark"
+                ? theme.palette.background.default
+                : "#fff",
           }}
         >
-          <LockIcon sx={{ fontSize: "2rem" }} />
-          Sign Up
-        </Typography>
-
-        <form onSubmit={handleSignup}>
-          <TextField
-            label="Full Name"
-            variant="outlined"
-            fullWidth
-            value={fullName}
-            onChange={(e) => setFullName(e.target.value)}
+          <Typography
+            variant="h4"
+            gutterBottom
             sx={{
-              mb: 2,
-              "& .MuiInputBase-root": {
-                backgroundColor: "transparent",
-              },
-              "& input:-webkit-autofill": {
-                WebkitBoxShadow: "0 0 0 1000px transparent inset",
-                WebkitTextFillColor:
-                  theme.palette.mode === "dark" ? "#fff" : "#000",
-                transition: "background-color 5000s ease-in-out 0s",
-              },
-            }}
-            required
-          />
-
-          <TextField
-            label="Email"
-            variant="outlined"
-            fullWidth
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            sx={{
-              mb: 2,
-              "& .MuiInputBase-root": {
-                backgroundColor: "transparent",
-              },
-              "& input:-webkit-autofill": {
-                WebkitBoxShadow: "0 0 0 1000px transparent inset",
-                WebkitTextFillColor:
-                  theme.palette.mode === "dark" ? "#fff" : "#000",
-                transition: "background-color 5000s ease-in-out 0s",
-              },
-            }}
-            required
-          />
-
-          <TextField
-            label="Password"
-            variant="outlined"
-            fullWidth
-            type={showPassword ? "text" : "password"}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            sx={{
-              mb: 2,
-              "& .MuiInputBase-root": {
-                backgroundColor: "transparent",
-              },
-              "& input:-webkit-autofill": {
-                WebkitBoxShadow: "0 0 0 1000px transparent inset",
-                WebkitTextFillColor:
-                  theme.palette.mode === "dark" ? "#fff" : "#000",
-                transition: "background-color 5000s ease-in-out 0s",
-              },
-            }}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label={showPassword ? "Hide password" : "Show password"}
-                    onClick={() => setShowPassword((show) => !show)}
-                    edge="end"
-                  >
-                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-            required
-          />
-
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{
-              backgroundColor: "#ff1744",
-              color: "#fff",
-              fontWeight: "bold",
-              "&:hover": {
-                backgroundColor: "#d50000",
-              },
+              color: "#ff1744",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 1,
+              fontWeight: 600,
+              mb: 3,
+              userSelect: "none",
             }}
           >
-            🔐 SIGN UP
-          </Button>
-        </form>
+            <LockIcon sx={{ fontSize: "2rem" }} />
+            Sign Up
+          </Typography>
 
-        <Typography
-          variant="body2"
-          sx={{ mt: 2, color: "text.secondary", cursor: "pointer" }}
-          onClick={() => navigate("/login")}
-        >
-          Already have an account? Login →
-        </Typography>
-      </Paper>
-    </Box>
+          <form onSubmit={handleSignup}>
+            <TextField
+              label="Full Name"
+              variant="outlined"
+              fullWidth
+              value={fullName}
+              onChange={(e) => setFullName(e.target.value)}
+              sx={{
+                mb: 2,
+                "& .MuiInputBase-root": {
+                  backgroundColor: "transparent",
+                },
+                "& input:-webkit-autofill": {
+                  WebkitBoxShadow: "0 0 0 1000px transparent inset",
+                  WebkitTextFillColor:
+                    theme.palette.mode === "dark" ? "#fff" : "#000",
+                  transition: "background-color 5000s ease-in-out 0s",
+                },
+              }}
+              required
+            />
+
+            <TextField
+              label="Email"
+              variant="outlined"
+              fullWidth
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              sx={{
+                mb: 2,
+                "& .MuiInputBase-root": {
+                  backgroundColor: "transparent",
+                },
+                "& input:-webkit-autofill": {
+                  WebkitBoxShadow: "0 0 0 1000px transparent inset",
+                  WebkitTextFillColor:
+                    theme.palette.mode === "dark" ? "#fff" : "#000",
+                  transition: "background-color 5000s ease-in-out 0s",
+                },
+              }}
+              required
+            />
+
+            <TextField
+              label="Password"
+              variant="outlined"
+              fullWidth
+              type={showPassword ? "text" : "password"}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              sx={{
+                mb: 2,
+                "& .MuiInputBase-root": {
+                  backgroundColor: "transparent",
+                },
+                "& input:-webkit-autofill": {
+                  WebkitBoxShadow: "0 0 0 1000px transparent inset",
+                  WebkitTextFillColor:
+                    theme.palette.mode === "dark" ? "#fff" : "#000",
+                  transition: "background-color 5000s ease-in-out 0s",
+                },
+              }}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label={showPassword ? "Hide password" : "Show password"}
+                      onClick={() => setShowPassword((show) => !show)}
+                      edge="end"
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+              required
+            />
+
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{
+                backgroundColor: "#ff1744",
+                color: "#fff",
+                fontWeight: "bold",
+                "&:hover": {
+                  backgroundColor: "#d50000",
+                },
+              }}
+            >
+              🔐 SIGN UP
+            </Button>
+          </form>
+
+          <Typography
+            variant="body2"
+            sx={{ mt: 2, color: "text.secondary", cursor: "pointer" }}
+            onClick={() => navigate("/login")}
+          >
+            Already have an account? Login →
+          </Typography>
+        </Paper>
+      </Box>
+    </>
   );
 };
 

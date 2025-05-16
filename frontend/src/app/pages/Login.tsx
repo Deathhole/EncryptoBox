@@ -18,6 +18,7 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../app/api/firebaseConfig";
 import { db } from "../../app/api/firebaseConfig"; 
 import { doc, getDoc, setDoc } from "firebase/firestore";
+import Topbar from "../../components/Topbar"; // ✅ Import Topbar
 
 const Login = () => {
   const theme = useTheme();
@@ -27,7 +28,6 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
-  // Check or create Firestore user doc
   const checkOrCreateUserDoc = async (userId: string) => {
     const userDocRef = doc(db, "users", userId);
     const docSnap = await getDoc(userDocRef);
@@ -71,121 +71,124 @@ const Login = () => {
   };
 
   return (
-    <Box
-      sx={{
-        mt: 12,
-        mx: "auto",
-        maxWidth: 400,
-        px: 3,
-        textAlign: "center",
-      }}
-    >
-      <Paper
-        elevation={4}
+    <>
+      <Topbar /> {/* ✅ Add Topbar here */}
+      <Box
         sx={{
-          p: 4,
-          borderRadius: 3,
-          backgroundColor:
-            theme.palette.mode === "dark"
-              ? theme.palette.background.default
-              : "#fff",
+          mt: 12,
+          mx: "auto",
+          maxWidth: 400,
+          px: 3,
+          textAlign: "center",
         }}
       >
-        <Typography
-          variant="h4"
-          gutterBottom
+        <Paper
+          elevation={4}
           sx={{
-            color: "#ff1744",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: 1,
-            fontWeight: 600,
-            mb: 3,
-            userSelect: "none",
+            p: 4,
+            borderRadius: 3,
+            backgroundColor:
+              theme.palette.mode === "dark"
+                ? theme.palette.background.default
+                : "#fff",
           }}
         >
-          <LockIcon sx={{ fontSize: "2rem" }} />
-          Login
-        </Typography>
+          <Typography
+            variant="h4"
+            gutterBottom
+            sx={{
+              color: "#ff1744",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 1,
+              fontWeight: 600,
+              mb: 3,
+              userSelect: "none",
+            }}
+          >
+            <LockIcon sx={{ fontSize: "2rem" }} />
+            Login
+          </Typography>
 
-        <TextField
-          label="Email"
-          variant="outlined"
-          fullWidth
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          sx={{
-            mb: 2,
-            "& .MuiInputBase-root": {
-              backgroundColor: "transparent",
-            },
-            "& input:-webkit-autofill": {
-              WebkitBoxShadow: "0 0 0 1000px transparent inset",
-              WebkitTextFillColor: theme.palette.mode === "dark" ? "#fff" : "#000",
-              transition: "background-color 5000s ease-in-out 0s",
-            },
-          }}
-        />
+          <TextField
+            label="Email"
+            variant="outlined"
+            fullWidth
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            sx={{
+              mb: 2,
+              "& .MuiInputBase-root": {
+                backgroundColor: "transparent",
+              },
+              "& input:-webkit-autofill": {
+                WebkitBoxShadow: "0 0 0 1000px transparent inset",
+                WebkitTextFillColor: theme.palette.mode === "dark" ? "#fff" : "#000",
+                transition: "background-color 5000s ease-in-out 0s",
+              },
+            }}
+          />
 
-        <TextField
-          fullWidth
-          label="Password"
-          type={showPassword ? "text" : "password"}
-          variant="outlined"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          sx={{
-            mb: 2,
-            "& .MuiInputBase-root": {
-              backgroundColor: "transparent",
-            },
-            "& input:-webkit-autofill": {
-              WebkitBoxShadow: "0 0 0 1000px transparent inset",
-              WebkitTextFillColor: theme.palette.mode === "dark" ? "#fff" : "#000",
-              transition: "background-color 5000s ease-in-out 0s",
-            },
-          }}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton
-                  aria-label={showPassword ? "Hide password" : "Show password"}
-                  onClick={() => setShowPassword((show) => !show)}
-                  edge="end"
-                >
-                  {showPassword ? <VisibilityOff /> : <Visibility />}
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-        />
+          <TextField
+            fullWidth
+            label="Password"
+            type={showPassword ? "text" : "password"}
+            variant="outlined"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            sx={{
+              mb: 2,
+              "& .MuiInputBase-root": {
+                backgroundColor: "transparent",
+              },
+              "& input:-webkit-autofill": {
+                WebkitBoxShadow: "0 0 0 1000px transparent inset",
+                WebkitTextFillColor: theme.palette.mode === "dark" ? "#fff" : "#000",
+                transition: "background-color 5000s ease-in-out 0s",
+              },
+            }}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label={showPassword ? "Hide password" : "Show password"}
+                    onClick={() => setShowPassword((show) => !show)}
+                    edge="end"
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+          />
 
-        <Button
-          fullWidth
-          variant="contained"
-          onClick={handleLogin}
-          sx={{
-            backgroundColor: "#ff1744",
-            color: "#fff",
-            fontWeight: "bold",
-            "&:hover": {
-              backgroundColor: "#d50000",
-            },
-          }}
-        >
-          🔐 LOGIN
-        </Button>
+          <Button
+            fullWidth
+            variant="contained"
+            onClick={handleLogin}
+            sx={{
+              backgroundColor: "#ff1744",
+              color: "#fff",
+              fontWeight: "bold",
+              "&:hover": {
+                backgroundColor: "#d50000",
+              },
+            }}
+          >
+            🔐 LOGIN
+          </Button>
 
-        <Typography
-          variant="body2"
-          sx={{ mt: 2, color: "text.secondary", cursor: "pointer" }}
-          onClick={() => navigate("/signup")}
-        >
-          Don&apos;t have an account? Sign up →
-        </Typography>
-      </Paper>
-    </Box>
+          <Typography
+            variant="body2"
+            sx={{ mt: 2, color: "text.secondary", cursor: "pointer" }}
+            onClick={() => navigate("/signup")}
+          >
+            Don&apos;t have an account? Sign up →
+          </Typography>
+        </Paper>
+      </Box>
+    </>
   );
 };
 

@@ -22,6 +22,7 @@ import PrivacyPolicy from "./app/pages/PrivacyPolicy";  // <-- Import PrivacyPol
 import Topbar from "./components/Topbar";
 import Footer from "./components/Footer";
 import ProtectedRoute from "./components/ProtectedRoute";
+import ProfileMenu from "./components/ProfileMenu";
 
 const HIDE_TOPBAR_PATHS = ["/login", "/signup", "/verify-email"];
 

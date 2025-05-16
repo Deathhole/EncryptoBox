@@ -8,6 +8,7 @@ import {
   Box,
   IconButton,
   Tooltip,
+  ListItemIcon,
   useTheme,
 } from "@mui/material";
 import {
@@ -15,6 +16,8 @@ import {
   AdminPanelSettings,
   Email,
   CheckCircle,
+  HelpOutline,
+  Policy,
 } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { ColorModeContext } from "../app/theme/theme";
@@ -61,7 +64,7 @@ const ProfileMenu: React.FC<Props> = ({ isAdmin }) => {
         await sendEmailVerification(currentUser);
         toast.info("Verification email sent.");
       }
-    } catch (error: any) {
+    } catch {
       toast.error("Failed to send verification email.");
     }
   };
@@ -77,46 +80,83 @@ const ProfileMenu: React.FC<Props> = ({ isAdmin }) => {
         </IconButton>
       </Tooltip>
 
-      <Menu anchorEl={anchorEl} open={open} onClose={handleMenuClose}>
+      <Menu
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleMenuClose}
+        PaperProps={{
+          sx: {
+            width: 260,
+            mt: 1.5,
+            borderRadius: 2,
+            backgroundColor: theme.palette.background.paper,
+            color: theme.palette.text.primary,
+          },
+        }}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        transformOrigin={{ vertical: "top", horizontal: "right" }}
+      >
         {currentUser ? (
           <>
             <Box px={2} py={1}>
-              <Typography variant="subtitle1">
-                {currentUser.displayName || "User"}
-              </Typography>
+              <Typography fontWeight="bold">{currentUser.displayName || "User"}</Typography>
               <Typography variant="body2" color="text.secondary">
                 {currentUser.email}
               </Typography>
             </Box>
 
-            <Divider />
+            <Divider sx={{ my: 1 }} />
 
             {!currentUser.emailVerified ? (
               <MenuItem onClick={handleResendVerification}>
-                <Email fontSize="small" sx={{ mr: 1 }} /> Resend Verification Email
+                <ListItemIcon>
+                  <Email fontSize="small" sx={{ color: "#ff1744" }} />
+                </ListItemIcon>
+                Resend Verification Email
               </MenuItem>
             ) : (
               <MenuItem disabled>
-                <CheckCircle fontSize="small" color="success" sx={{ mr: 1 }} /> Email Verified
+                <ListItemIcon>
+                  <CheckCircle fontSize="small" color="success" />
+                </ListItemIcon>
+                Email Verified
               </MenuItem>
             )}
 
             {isAdmin && (
               <MenuItem onClick={() => navigate("/admin")}>
-                <AdminPanelSettings fontSize="small" sx={{ mr: 1 }} /> Admin Panel
+                <ListItemIcon>
+                  <AdminPanelSettings fontSize="small" sx={{ color: "#ff1744" }} />
+                </ListItemIcon>
+                Admin Panel
               </MenuItem>
             )}
 
-            
+            <MenuItem onClick={() => navigate("/privacy-policy")}>
+              <ListItemIcon>
+                <Policy fontSize="small" sx={{ color: "#ff1744" }} />
+              </ListItemIcon>
+              Privacy Policy
+            </MenuItem>
 
-            <Divider />
+            <MenuItem onClick={() => navigate("/help")}>
+              <ListItemIcon>
+                <HelpOutline fontSize="small" sx={{ color: "#ff1744" }} />
+              </ListItemIcon>
+              Help Center
+            </MenuItem>
+
+            <Divider sx={{ my: 1 }} />
           </>
         ) : (
-          <MenuItem disabled>Loading...</MenuItem>
+          <MenuItem disabled>Loading user...</MenuItem>
         )}
 
         <MenuItem onClick={handleLogout}>
-          <Logout fontSize="small" sx={{ mr: 1 }} /> Logout
+          <ListItemIcon>
+            <Logout fontSize="small" sx={{ color: "#ff1744" }} />
+          </ListItemIcon>
+          Logout
         </MenuItem>
       </Menu>
     </>

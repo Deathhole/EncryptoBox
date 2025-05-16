@@ -66,16 +66,26 @@ const Home: React.FC = () => {
               fontWeight="bold"
               textAlign="center"
               gutterBottom
-              sx={{ textShadow: "0 0 10px rgba(255, 23, 68, 0.8)" }}
+              sx={{
+                textShadow: "0 0 10px rgba(255, 23, 68, 0.8)",
+                caretColor: "transparent",
+                userSelect: "text",
+              }}
             >
-               Welcome to EncryptoBox
+              Welcome to EncryptoBox
             </Typography>
             <Typography
               variant="h6"
               color="text.secondary"
               textAlign="center"
               mb={6}
-              sx={{ maxWidth: 600, mx: "auto", fontWeight: 500 }}
+              sx={{
+                maxWidth: 600,
+                mx: "auto",
+                fontWeight: 500,
+                caretColor: "transparent",
+                userSelect: "text",
+              }}
             >
               Encrypt and decrypt your files securely with style. Navigate
               using the cards below:
@@ -139,11 +149,23 @@ const Home: React.FC = () => {
                         display="flex"
                         alignItems="center"
                         color="primary.main"
+                        sx={{
+                          caretColor: "transparent",
+                          userSelect: "text",
+                        }}
                       >
                         {card.icon}
                         {card.title}
                       </Typography>
-                      <Typography variant="body2" color="text.secondary" mb={3}>
+                      <Typography
+                        variant="body2"
+                        color="text.secondary"
+                        mb={3}
+                        sx={{
+                          caretColor: "transparent",
+                          userSelect: "text",
+                        }}
+                      >
                         {card.description}
                       </Typography>
                     </CardContent>
@@ -175,11 +197,23 @@ const Home: React.FC = () => {
                 opacity: 0.85,
               }}
             >
-              <Typography>🔐 GDPR Compliant</Typography>
+              <Typography
+                sx={{ caretColor: "transparent", userSelect: "text" }}
+              >
+                🔐 GDPR Compliant
+              </Typography>
               <Divider orientation="vertical" flexItem sx={{ borderColor: theme.palette.primary.main }} />
-              <Typography>✅ AES-256 Encryption</Typography>
+              <Typography
+                sx={{ caretColor: "transparent", userSelect: "text" }}
+              >
+                ✅ AES-256 Encryption
+              </Typography>
               <Divider orientation="vertical" flexItem sx={{ borderColor: theme.palette.primary.main }} />
-              <Typography>🛡️ Zero Knowledge Privacy</Typography>
+              <Typography
+                sx={{ caretColor: "transparent", userSelect: "text" }}
+              >
+                🛡️ Zero Knowledge Privacy
+              </Typography>
             </Box>
 
             {/* User Testimonials */}
@@ -190,14 +224,30 @@ const Home: React.FC = () => {
               color="text.primary"
               mb={10}
             >
-              <Typography variant="h5" fontWeight="bold" gutterBottom>
+              <Typography
+                variant="h5"
+                fontWeight="bold"
+                gutterBottom
+                sx={{ caretColor: "transparent", userSelect: "text" }}
+              >
                 What Our Users Say
               </Typography>
-              <Typography variant="body1" fontStyle="italic" mb={1} color="text.secondary">
+              <Typography
+                variant="body1"
+                fontStyle="italic"
+                mb={1}
+                color="text.secondary"
+                sx={{ caretColor: "transparent", userSelect: "text" }}
+              >
                 "EncryptoBox made securing my confidential files effortless and
                 fast!"
               </Typography>
-              <Typography variant="body2" color="text.secondary" fontWeight="medium">
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                fontWeight="medium"
+                sx={{ caretColor: "transparent", userSelect: "text" }}
+              >
                 — Jamie L., Security Analyst
               </Typography>
             </Box>
@@ -210,7 +260,13 @@ const Home: React.FC = () => {
               color="text.secondary"
               mb={10}
             >
-              <Typography variant="h5" fontWeight="bold" color="primary" gutterBottom>
+              <Typography
+                variant="h5"
+                fontWeight="bold"
+                color="primary"
+                gutterBottom
+                sx={{ caretColor: "transparent", userSelect: "text" }}
+              >
                 How It Works
               </Typography>
               <Box
@@ -254,10 +310,15 @@ const Home: React.FC = () => {
                       mb={1}
                       color={theme.palette.primary.main}
                       fontWeight="bold"
+                      sx={{ caretColor: "transparent", userSelect: "text" }}
                     >
                       {step}
                     </Typography>
-                    <Typography>{description}</Typography>
+                    <Typography
+                      sx={{ caretColor: "transparent", userSelect: "text" }}
+                    >
+                      {description}
+                    </Typography>
                   </Box>
                 ))}
               </Box>
@@ -283,6 +344,7 @@ const Home: React.FC = () => {
                 gutterBottom
                 textAlign="center"
                 mb={3}
+                sx={{ caretColor: "transparent", userSelect: "text" }}
               >
                 Security Tips
               </Typography>
@@ -311,61 +373,55 @@ const Home: React.FC = () => {
                 fontWeight="bold"
                 color="primary"
                 gutterBottom
-                textAlign="center"
-                mb={4}
+                sx={{ caretColor: "transparent", userSelect: "text" }}
               >
                 Frequently Asked Questions
               </Typography>
-
-              <Box mb={3}>
-                <Typography variant="subtitle1" fontWeight="bold" mb={1}>
+              <Box component="dl" sx={{ m: 0 }}>
+                <Typography
+                  component="dt"
+                  fontWeight="bold"
+                  mb={1}
+                  sx={{ caretColor: "transparent", userSelect: "text" }}
+                >
                   Is my data stored on your servers?
                 </Typography>
-                <Typography>
-                  No. All encryption and decryption happen locally on your device
-                  for maximum privacy.
+                <Typography
+                  component="dd"
+                  mb={3}
+                  sx={{ caretColor: "transparent", userSelect: "text" }}
+                >
+                  No, all encryption and decryption happen locally in your
+                  browser.
                 </Typography>
-              </Box>
 
-              <Box>
-                <Typography variant="subtitle1" fontWeight="bold" mb={1}>
+                <Typography
+                  component="dt"
+                  fontWeight="bold"
+                  mb={1}
+                  sx={{ caretColor: "transparent", userSelect: "text" }}
+                >
                   What encryption algorithm do you use?
                 </Typography>
-                <Typography>
-                  We use industry-standard AES-256 encryption for robust security.
+                <Typography
+                  component="dd"
+                  mb={3}
+                  sx={{ caretColor: "transparent", userSelect: "text" }}
+                >
+                  We use AES-256, one of the most secure standards available.
                 </Typography>
               </Box>
             </Box>
 
-            {/* Call to Action Banner */}
-            <Box
-              py={5}
-              px={6}
-              bgcolor={theme.palette.primary.main}
-              color={theme.palette.primary.contrastText}
-              textAlign="center"
-              borderRadius={3}
-              mb={6}
-              boxShadow={`0 8px 24px ${theme.palette.primary.main}80`}
-              sx={{ userSelect: "none" }}
-            >
-              <Typography variant="h6" fontWeight="bold" mb={3}>
-                Ready to secure your files? Start encrypting today — it’s free!
-              </Typography>
+            {/* Call to Action */}
+            <Box textAlign="center" mb={6}>
               <Button
                 variant="contained"
-                color="secondary"
                 size="large"
+                color="primary"
                 onClick={() => navigate("/signup")}
-                sx={{
-                  px: 5,
-                  py: 1.5,
-                  fontWeight: "bold",
-                  fontSize: "1rem",
-                  letterSpacing: 0.5,
-                }}
               >
-                Sign Up Now
+                Get Started Now
               </Button>
             </Box>
           </Box>

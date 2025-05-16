@@ -1,4 +1,3 @@
-// src/components/Topbar.tsx
 import React, { useState } from "react";
 import {
   AppBar,
@@ -19,7 +18,7 @@ import { Link, useLocation } from "react-router-dom";
 import ProfileMenu from "./ProfileMenu";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../app/api/firebaseConfig";
-import EncryptoBoxLogo from "./EncryptoBoxLogo"; // <-- Added import
+import EncryptoBoxLogo from "./EncryptoBoxLogo";
 
 const navLinks = [
   { label: "Home", path: "/home" },
@@ -57,7 +56,7 @@ const Topbar: React.FC = () => {
             to="/home"
             sx={{ textDecoration: "none" }}
           >
-            <EncryptoBoxLogo size={36} /> {/* Replaced red box with SVG logo */}
+            <EncryptoBoxLogo size={36} />
             <Typography
               variant="h6"
               fontWeight="bold"
@@ -66,13 +65,15 @@ const Topbar: React.FC = () => {
                 fontFamily: "'Poppins', sans-serif",
                 fontSize: "1.25rem",
                 "&:hover": { color: "#ff1744" },
+                // Removed the extra blinking cursor-like bar
+                borderRight: "none"
               }}
             >
               EncryptoBox
             </Typography>
           </Box>
 
-          {/* Centered Navigation (Desktop) */}
+          {/* Center Navigation (Desktop) */}
           <Box
             sx={{
               flexGrow: 1,
@@ -111,19 +112,38 @@ const Topbar: React.FC = () => {
             </Stack>
           </Box>
 
+          {/* Right Side (Login/Signup or Profile) */}
+          <Box sx={{ display: { xs: "none", md: "flex" } }}>
+            {user ? (
+              <ProfileMenu isAdmin={isAdmin} />
+            ) : location.pathname === "/home" ? (
+              <Button
+                component={Link}
+                to="/login"
+                variant="outlined"
+                sx={{
+                  borderColor: "#ff1744",
+                  color: "#ff1744",
+                  fontFamily: "'Poppins', sans-serif",
+                  textTransform: "none",
+                  "&:hover": {
+                    backgroundColor: "#ff1744",
+                    color: "#fff",
+                    borderColor: "#ff1744",
+                  },
+                }}
+              >
+                Login / Signup
+              </Button>
+            ) : null}
+          </Box>
+
           {/* Hamburger (Mobile) */}
           <Box sx={{ display: { xs: "block", md: "none" } }}>
             <IconButton edge="end" color="inherit" onClick={toggleDrawer(true)}>
               <MenuIcon />
             </IconButton>
           </Box>
-
-          {/* Profile Menu (Desktop only) */}
-          {user && (
-            <Box sx={{ display: { xs: "none", md: "block" } }}>
-              <ProfileMenu isAdmin={isAdmin} />
-            </Box>
-          )}
         </Toolbar>
       </AppBar>
 
@@ -150,6 +170,15 @@ const Topbar: React.FC = () => {
                 </ListItemButton>
               </ListItem>
             ))}
+
+            {!user && location.pathname === "/home" && (
+              <ListItem disablePadding>
+                <ListItemButton component={Link} to="/login">
+                  <ListItemText primary="Login / Signup" />
+                </ListItemButton>
+              </ListItem>
+            )}
+
             {user && (
               <ListItem disablePadding>
                 <Box px={2} pt={2}>

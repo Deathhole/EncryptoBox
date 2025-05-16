@@ -65,3 +65,16 @@ textarea {
 * {
   transition: all 0.25s ease-in-out;
 }
+
+/* 🔒 Disable blinking cursors from typing effects */
+.cursor,
+.blinking-cursor,
+.cursor::after,
+.typing::after,
+.Typewriter__cursor {
+  animation: none !important;
+  border-right: none !important;
+  content: '' !important;
+  display: none !important;
+  opacity: 0 !important;
+}
