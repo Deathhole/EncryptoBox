@@ -15,10 +15,10 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../app/api/firebaseConfig";
-import { db } from "../../app/api/firebaseConfig"; 
+import { auth, db } from "../../app/api/firebaseConfig";
 import { doc, getDoc, setDoc } from "firebase/firestore";
-import Topbar from "../../components/Topbar"; // ✅ Import Topbar
+import Topbar from "../../components/Topbar";
+import Footer from "../../components/Footer"; // ✅ Import Footer
 
 const Login = () => {
   const theme = useTheme();
@@ -35,7 +35,7 @@ const Login = () => {
     if (!docSnap.exists()) {
       try {
         await setDoc(userDocRef, {
-          userId: userId,
+          userId,
           createdAt: new Date(),
         });
         console.log("User document created successfully!");
@@ -72,7 +72,7 @@ const Login = () => {
 
   return (
     <>
-      <Topbar /> {/* ✅ Add Topbar here */}
+      <Topbar />
       <Box
         sx={{
           mt: 12,
@@ -80,6 +80,10 @@ const Login = () => {
           maxWidth: 400,
           px: 3,
           textAlign: "center",
+          minHeight: "80vh", // ensures footer appears at bottom
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
         }}
       >
         <Paper
@@ -188,6 +192,7 @@ const Login = () => {
           </Typography>
         </Paper>
       </Box>
+      <Footer /> {/* ✅ Linked Footer here */}
     </>
   );
 };

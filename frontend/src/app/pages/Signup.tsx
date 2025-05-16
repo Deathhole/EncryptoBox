@@ -21,6 +21,7 @@ import { auth, db } from "../../app/api/firebaseConfig";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Topbar from "../../components/Topbar";
+import Footer from "../../components/Footer"; // ✅ Import Footer
 
 const Signup: React.FC = () => {
   const theme = useTheme();
@@ -78,6 +79,10 @@ const Signup: React.FC = () => {
           maxWidth: 400,
           px: 3,
           textAlign: "center",
+          minHeight: "80vh", // ensures footer stays at bottom
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
         }}
       >
         <Paper
@@ -214,6 +219,7 @@ const Signup: React.FC = () => {
           </Typography>
         </Paper>
       </Box>
+      <Footer /> {/* ✅ Linked Footer here */}
     </>
   );
 };

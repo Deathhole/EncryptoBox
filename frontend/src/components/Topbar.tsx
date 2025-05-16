@@ -54,9 +54,23 @@ const Topbar: React.FC = () => {
             gap={1}
             component={Link}
             to="/home"
-            sx={{ textDecoration: "none" }}
+            sx={{
+              textDecoration: "none",
+              userSelect: "none",
+              caretColor: "transparent",
+            }}
           >
-            <EncryptoBoxLogo size={36} />
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                pointerEvents: "none",
+                userSelect: "none",
+              }}
+            >
+              <EncryptoBoxLogo size={36} />
+            </Box>
             <Typography
               variant="h6"
               fontWeight="bold"
@@ -65,8 +79,8 @@ const Topbar: React.FC = () => {
                 fontFamily: "'Poppins', sans-serif",
                 fontSize: "1.25rem",
                 "&:hover": { color: "#ff1744" },
-                // Removed the extra blinking cursor-like bar
-                borderRight: "none"
+                userSelect: "none",
+                caretColor: "transparent",
               }}
             >
               EncryptoBox
