@@ -24,7 +24,7 @@ No server-side storage — everything happens locally on your device.
 ## 🚀 Usage
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/encryptobox.git
+git clone https://github.com/Deathhole/EncryptoBox.git
 cd encryptobox
 
 # Install dependencies
